@@ -27,7 +27,7 @@ dim = 3 # dimension of each node
 x = torch.randn(in_size, dim) # state for each input element
 index = torch.randint(low=0, high=out_size, size=(in_size,)) # the output node for each input node to aggregate into
 agg = GenAgg() # initialise the aggregator
-y = agg(x=x, index=index) # comput the output
+y = agg(x=x, index=index) # compute the output
 ```
 
 ## Experiments
