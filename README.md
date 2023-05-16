@@ -33,16 +33,16 @@ y = agg(x=x, index=index) # comput the output
 ## Experiments
 Aggregator Regression:
 ```bash
-run/regress_agg.py
+python run/regress_agg.py
 ```
 GNN Regression:
 ```bash
-run/regress_gnn.py
+python run/regress_gnn.py
 ```
 GNN Benchmarks:
 ```bash
-run/exp_genagg.py
-run/exp_aggr.py
-run/exp_poweragg.py
-run/exp_pna.py
+python run/exp_genagg.py
+python run/exp_aggr.py
+python run/exp_poweragg.py
+rpython un/exp_pna.py
 ```
