@@ -12,6 +12,7 @@ setup(
     packages=find_packages(),
     install_requires=["torch", "torch_geometric", "wandb", "scipy"],
     author="Ryan Kortvelesy",
+    url="https://github.com/Acciorocketships/generalised-aggregation",
     description="A learnable, generalised aggregation module for pytorch that parametrises the space of aggregation functions.",
     long_description=long_desc,
     long_description_content_type='text/markdown',
