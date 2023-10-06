@@ -1,5 +1,15 @@
 # GenAgg
 
+## [Paper](https://arxiv.org/abs/2306.13826)
+```
+@article{genagg,
+  title = {Generalised f-Mean Aggregation for Graph Neural Networks},
+  author = {Kortvelesy, Ryan and Morad, Steven and Prorok, Amanda},
+  year = {2023},
+  journal={Advances in Neural Information Processing Systems},
+}
+```
+
 ## Introduction
 GenAgg is an aggregator that parametrises the function space of all standard aggregators. It is learnable, allowing it to converge to the most appropriate aggregator for a given problem. It is given by the following formula:
 $$\bigoplus_{x_i \in \mathcal{X}} x_i = f^{-1} \left( n^{\alpha-1} \sum_{x_i \in \mathcal{X}} f(x_i - \beta \mu) \right)$$ 
@@ -49,7 +59,9 @@ print("y:", y.detach())
 >           [ 0.6762,  0.1140],
 >           [-1.2734, -1.8754],
 >           [-0.2148,  1.8237]])
+>
 >index: tensor([1, 0, 0, 0, 1, 0, 3, 3])
+>
 >y: tensor([[-0.3341,  0.0974],
 >           [-1.6495,  0.0420],
 >           [ 0.0000,  0.0000],
@@ -89,9 +101,16 @@ print("max error:", torch.max(torch.abs(x-xrec)).detach())
 ```
 >```
 >x: tensor([-2., -1.,  0.,  1.,  2.])
+>
 >f(x): tensor([2.0679, 2.4338, 3.8571, 5.1010, 5.8643])
+>
 >max error: tensor(2.8610e-06)
 >```
+
+The following plot shows a `InvertibleNN` trained to represent $\log(x)$. The dotted line is the ground truth, the blue line is the learned forward function, and the red line is the inverse function. Note that the inverse is not explicitly trained, but it still converges to $e^x$.
+<p align="center">
+<img src="https://github.com/Acciorocketships/generalised-aggregation/blob/main/imgs/plot_inverse.png" alt="Special Cases" width="500"/>
+</p>
 
 It is extremely straightforward to use GenAgg in existing GNN architectures. Simply set the `aggr` attribute of your GNN layer to an instance of GenAgg:
 ```python
@@ -109,6 +128,7 @@ print("y:", y.detach())
 >x: tensor([[0.5977, 0.9049],
 >           [0.6357, 0.4703],
 >           [0.2521, 0.6275]])
+>
 >y: tensor([[0.1559],
 >           [1.2240],
 >           [0.1208]])
@@ -116,7 +136,7 @@ print("y:", y.detach())
 
 ## Generalised Distributive Property
 
-Given our novel parametrisation of aggregation functions, we also define a _generalised distributive property_---just as the standard distributive property states $\sum c x_i = c\sum x_i$, we define a distributive property for _any aggregator_. This is particularly useful when developing efficient algorithms. Just as the Fast Fourier Transform and the Viterbi algorithm use the distributive property to optimise time-efficiency, new approaches can use the _generalised_ distributive property to design efficient algorithms that are not limited by linearity.
+Given our generalised parametrisation of aggregation functions, we also define a _generalised distributive property_---just as the standard distributive property states $\sum c x_i = c\sum x_i$, we define a distributive property for _any aggregator_. This is particularly useful when developing efficient algorithms. Just as the Fast Fourier Transform and the Viterbi algorithm use the distributive property to optimise time-efficiency, new approaches can use the _generalised_ distributive property to design efficient algorithms that are not limited by linearity.
 
 **Generalised Distributive Property.** For a binary operator $\psi$ and set aggregation function $\bigodot$, the Generalised Distributive Property is defined:
 
@@ -139,10 +159,11 @@ yc2 = agg(agg.dist_op(c, x), dim=0)
 print("c˚agg(xi):", yc1.detach())
 print("agg(c˚xi):", yc2.detach())
 ```
-```
-c˚agg(xi): tensor([6.4132])
-agg(c˚xi): tensor([6.4132])
-```
+>```
+>c˚agg(xi): tensor([6.4132])
+>
+>agg(c˚xi): tensor([6.4132])
+>```
 
 <p align="center">
 <img src="https://github.com/Acciorocketships/generalised-aggregation/blob/main/imgs/dist_ops.png" alt="Distributive Operations" width="500"/>
