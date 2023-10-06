@@ -6,7 +6,7 @@
   title = {Generalised f-Mean Aggregation for Graph Neural Networks},
   author = {Kortvelesy, Ryan and Morad, Steven and Prorok, Amanda},
   year = {2023},
-  journal={37th Conference on Neural Information Processing Systems (NeurIPS 2023)},
+  journal={37th Conference on Neural Information Processing Systems (NeurIPS)},
 }
 ```
 
