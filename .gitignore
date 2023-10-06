@@ -6,3 +6,4 @@
 *.swp
 */wandb/
 *.idea/
+dist/
