@@ -8,6 +8,10 @@ where $x_i$ are the inputs, $n=|\mathcal{X}|$ is the cardinality of the input, a
 - $\alpha$: This is a scaling factor for GenAgg. It determines if the output is dependent on the number of inputs. For example, given $f(x) = x$, $\alpha=0$ denotes a mean, and $\alpha=1$ denotes a sum. Similarly, if $f(x) = \log|x|$, then $\alpha=0$ denotes a product and $\alpha=1$ denotes the geometric mean (_i.e._, the n-th root of the product).
 - $\beta$: The $\beta$ parameter enables GenAgg to calculate _centralised moments_, which are quantitative measures of the distribution of the input $\mathcal{X}$. The first raw moment of $\mathcal{X}$ is the mean $\mu = \frac{1}{n}\sum{x_i}$, and the $k$-th central moment is given by $\mu_k = \sum{(x_i-\mu)^k}$. With the addition of $\beta$, it becomes possible for GenAgg to represent $\sqrt[k]{\mu_k}$, the $k$-th root of the $k$-th central moment. For example, for $k=2$, this quantity is the standard deviation. In general, the $\beta$ parameter can be understood as an indicator for whether an aggregator operates over the inputs themselves ($\beta=0$), or the variation between the inputs ($\beta=1$).
 
+<p align="center">
+<img src="https://github.com/Acciorocketships/generalised-aggregation/blob/main/imgs/special_cases.png" alt="Special Cases" width="500"/>
+</p>
+
 ## Installation
 ```bash
 cd generalised-aggregation
@@ -138,4 +142,8 @@ print("agg(c˚xi):", yc2.detach())
 ```
 c˚agg(xi): tensor([6.4132])
 agg(c˚xi): tensor([6.4132])
-``` 
+```
+
+<p align="center">
+<img src="https://github.com/Acciorocketships/generalised-aggregation/blob/main/imgs/dist_ops.png" alt="Distributive Operations" width="500"/>
+</p>
