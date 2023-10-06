@@ -5,7 +5,7 @@ import numpy as np
 from torch.nn import MSELoss
 
 
-class MLPForwardReverse(nn.Module):
+class MLPAutoencoder(nn.Module):
 	def __init__(
 			self,
 			layer_sizes=(1, 2, 2, 4),
@@ -61,7 +61,7 @@ class MLPForwardReverse(nn.Module):
 		self.input_forward = x
 		return y.reshape(shape)
 
-	def reverse(self, input: Tensor) -> Tensor:
+	def inverse(self, input: Tensor) -> Tensor:
 		shape = list(input.shape)
 		shape[-1] = self.layer_sizes[0]
 		x = input.reshape(-1, self.layer_sizes[-1])

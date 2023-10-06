@@ -1,5 +1,5 @@
 from torch_geometric.nn import GraphConv
-from run import run
+from Runner import run
 from genagg import GenAgg
 
 
@@ -16,8 +16,8 @@ def main():
 	}
 
 	run(configs=configs, datasets=["PATTERN", "CLUSTER", "MNIST", "CIFAR10"],
-		num_seeds=10, jobs_per_gpu=1, use_gpu=True, batch_size=32, single_thread=True,
-		wandb_project="genagg", save=False)
+		num_seeds=10, jobs_per_gpu=1, use_gpu=False, batch_size=32, single_thread=True,
+		wandb_project=None, save=False)
 
 
 if __name__ == '__main__':

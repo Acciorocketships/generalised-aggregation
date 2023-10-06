@@ -5,37 +5,39 @@ from typing import Optional
 from torch_geometric.typing import Adj
 from torch import Tensor
 import torch
+from torch import nn
 from torch_geometric.nn import MessagePassing
 from torch_geometric.loader import DataLoader
 from torch_geometric.data import Data, Batch
 from torch_geometric.utils.convert import from_scipy_sparse_matrix
 from scipy.sparse import coo_matrix
 from torch_geometric.nn.aggr import *
-from exp_poweragg import PowerMeanAggregationCustom
 import gym
 from gym import spaces
+from matplotlib import pyplot as plt
 
 from genagg import GenAgg
+from genagg import MLPAutoencoder
 
-project = "genagg-regress-agg"
-user = ""
+project = "genagg-regress"
+user = None
 
 def experiments():
 	trials = {
 		"genagg": [
-			{"model_kwargs": {"aggr": GenAgg, "layer_sizes": [1, 2, 2, 4], "abs_inv_obj": True}, "agg": "max", "mixfunc": lambda local, neighbours: np.max(neighbours, axis=0)},
-			{"model_kwargs": {"aggr": GenAgg, "layer_sizes": [1, 2, 2, 4], "abs_inv_obj": True}, "agg": "min", "mixfunc": lambda local, neighbours: np.min(neighbours, axis=0)},
-			{"model_kwargs": {"aggr": GenAgg, "layer_sizes": [1, 2, 2, 4], "abs_inv_obj": True}, "agg": "max-mag", "mixfunc": lambda local, neighbours: np.max(np.abs(neighbours), axis=0)},
-			{"model_kwargs": {"aggr": GenAgg, "layer_sizes": [1, 2, 2, 4], "abs_inv_obj": True}, "agg": "min-mag", "mixfunc": lambda local, neighbours: np.min(np.abs(neighbours), axis=0)},
-			{"model_kwargs": {"aggr": GenAgg, "layer_sizes": [1, 2, 2, 4], "abs_inv_obj": True}, "agg": "mean", "mixfunc": lambda local, neighbours: np.mean(neighbours, axis=0)},
-			{"model_kwargs": {"aggr": GenAgg, "layer_sizes": [1, 2, 2, 4], "abs_inv_obj": True}, "agg": "sum", "mixfunc": lambda local, neighbours: np.sum(neighbours, axis=0)},
-			{"model_kwargs": {"aggr": GenAgg, "layer_sizes": [1, 2, 2, 4], "abs_inv_obj": True}, "agg": "std", "mixfunc": lambda local, neighbours: np.std(neighbours, axis=0)},
-			{"model_kwargs": {"aggr": GenAgg, "layer_sizes": [1, 2, 2, 4], "abs_inv_obj": True}, "agg": "2-norm", "mixfunc": lambda local, neighbours: np.linalg.norm(neighbours, axis=0)},
-			{"model_kwargs": {"aggr": GenAgg, "layer_sizes": [1, 2, 2, 4], "abs_inv_obj": True}, "agg": "rms", "mixfunc": lambda local, neighbours: np.sqrt(np.mean(neighbours ** 2, axis=0))},
-			{"model_kwargs": {"aggr": GenAgg, "layer_sizes": [1, 2, 2, 4], "abs_inv_obj": True}, "agg": "prod-abs", "mixfunc": lambda local, neighbours: np.prod(np.abs(neighbours), axis=0)},
-			{"model_kwargs": {"aggr": GenAgg, "layer_sizes": [1, 2, 2, 4], "abs_inv_obj": True}, "agg": "geom-mean-abs", "mixfunc": lambda local, neighbours: np.prod(np.abs(neighbours), axis=0) ** (1 / neighbours.shape[0])},
-			{"model_kwargs": {"aggr": GenAgg, "layer_sizes": [1, 2, 2, 4], "abs_inv_obj": True}, "agg": "harm-mean-abs", "mixfunc": lambda local, neighbours: neighbours.shape[0] / np.sum(1 / np.abs(neighbours), axis=0)},
-			{"model_kwargs": {"aggr": GenAgg, "layer_sizes": [1, 2, 2, 4], "abs_inv_obj": True}, "agg": "log-sum-exp", "mixfunc": lambda local, neighbours: np.log(np.sum(np.exp(neighbours), axis=0))},
+			{"model_kwargs": {"aggr": GenAgg, "f": MLPAutoencoder, "layer_sizes": (1,2,4,2,1)}, "agg": "max", "mixfunc": lambda local, neighbours: np.max(neighbours, axis=0)},
+			{"model_kwargs": {"aggr": GenAgg, "f": MLPAutoencoder, "layer_sizes": (1,2,4,2,1)}, "agg": "min", "mixfunc": lambda local, neighbours: np.min(neighbours, axis=0)},
+			{"model_kwargs": {"aggr": GenAgg, "f": MLPAutoencoder, "layer_sizes": (1,2,4,2,1)}, "agg": "max-mag", "mixfunc": lambda local, neighbours: np.max(np.abs(neighbours), axis=0)},
+			{"model_kwargs": {"aggr": GenAgg, "f": MLPAutoencoder, "layer_sizes": (1,2,4,2,1)}, "agg": "min-mag", "mixfunc": lambda local, neighbours: np.min(np.abs(neighbours), axis=0)},
+			{"model_kwargs": {"aggr": GenAgg, "f": MLPAutoencoder, "layer_sizes": (1,2,4,2,1)}, "agg": "mean", "mixfunc": lambda local, neighbours: np.mean(neighbours, axis=0)},
+			{"model_kwargs": {"aggr": GenAgg, "f": MLPAutoencoder, "layer_sizes": (1,2,4,2,1)}, "agg": "sum", "mixfunc": lambda local, neighbours: np.sum(neighbours, axis=0)},
+			{"model_kwargs": {"aggr": GenAgg, "f": MLPAutoencoder, "layer_sizes": (1,2,4,2,1)}, "agg": "std", "mixfunc": lambda local, neighbours: np.std(neighbours, axis=0)},
+			{"model_kwargs": {"aggr": GenAgg, "f": MLPAutoencoder, "layer_sizes": (1,2,4,2,1)}, "agg": "2-norm", "mixfunc": lambda local, neighbours: np.linalg.norm(neighbours, axis=0)},
+			{"model_kwargs": {"aggr": GenAgg, "f": MLPAutoencoder, "layer_sizes": (1,2,4,2,1)}, "agg": "rms", "mixfunc": lambda local, neighbours: np.sqrt(np.mean(neighbours ** 2, axis=0))},
+			{"model_kwargs": {"aggr": GenAgg, "f": MLPAutoencoder, "layer_sizes": (1,2,4,2,1)}, "agg": "prod-abs", "mixfunc": lambda local, neighbours: np.prod(np.abs(neighbours), axis=0)},
+			{"model_kwargs": {"aggr": GenAgg, "f": MLPAutoencoder, "layer_sizes": (1,2,4,2,1)}, "agg": "geom-mean-abs", "mixfunc": lambda local, neighbours: np.prod(np.abs(neighbours), axis=0) ** (1 / neighbours.shape[0])},
+			{"model_kwargs": {"aggr": GenAgg, "f": MLPAutoencoder, "layer_sizes": (1,2,4,2,1)}, "agg": "harm-mean-abs", "mixfunc": lambda local, neighbours: neighbours.shape[0] / np.sum(1 / np.abs(neighbours), axis=0)},
+			{"model_kwargs": {"aggr": GenAgg, "f": MLPAutoencoder, "layer_sizes": (1,2,4,2,1)}, "agg": "log-sum-exp", "mixfunc": lambda local, neighbours: np.log(np.sum(np.exp(neighbours), axis=0))},
 		],
 		"mean": [
 			{"model_kwargs": {"aggr": MeanAggregation()}, "agg": "max", "mixfunc": lambda local, neighbours: np.max(neighbours, axis=0)},
@@ -191,9 +193,18 @@ def run(
 
 		alpha = 0
 		beta = 0
+		f_plot = None
+		fig = None
 		if isinstance(model.aggr, GenAgg):
 			alpha = model.aggr.a.data.item()
 			beta = model.aggr.c.data.item()
+			if t % 10 == 0:
+				x = torch.linspace(-2,2,200).view(-1,1)
+				fx = model.aggr.f(x)
+				fy = model.aggr.f.inverse(x)
+				fig, ax = plt.subplots()
+				ax.plot(x,fx.detach(),'b')
+				ax.plot(x,fy.detach(),'r')
 		elif isinstance(model.aggr, PowerMeanAggregationCustom):
 			alpha = model.aggr.p.data.item()
 		elif isinstance(model.aggr, SoftmaxAggregation):
@@ -206,7 +217,10 @@ def run(
 				"corr": avg_corr,
 				"alpha": alpha,
 				"beta": beta,
+				"f": fig,
 			})
+		if fig is not None:
+			plt.close(fig)
 
 	if project is not None:
 		wandb.finish()
@@ -383,6 +397,28 @@ def dense_to_geometric(A, **kwargs):
         for i, (edge_index, edge_attr) in enumerate(edge_list)
     ]
     return Batch.from_data_list(data_list)
+
+
+class PowerMeanAggregationCustom(Aggregation):
+
+	def __init__(self, p: float = 1.0, learn: bool = False):
+		super().__init__()
+		self._init_p = p
+		self.learn = learn
+		self.p = nn.Parameter(torch.Tensor(1)) if learn else p
+		self.reset_parameters()
+
+	def reset_parameters(self):
+		if isinstance(self.p, Tensor):
+			self.p.data.fill_(self._init_p)
+
+	def forward(self, x: Tensor, index: Optional[Tensor] = None,
+				ptr: Optional[Tensor] = None, dim_size: Optional[int] = None,
+				dim: int = -2) -> Tensor:
+		x = x.clamp(min=1e-6, max=100).pow(self.p)
+		out = self.reduce(x, index, ptr, dim_size, dim, reduce='mean')
+		out = out.clamp(min=1e-6, max=100).pow(1. / self.p)
+		return out
 
 
 if __name__ == "__main__":

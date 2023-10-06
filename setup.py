@@ -3,9 +3,9 @@ from setuptools import find_packages
 
 setup(
     name="genagg",
-    version="0.0.1",
+    version="2.0.0",
     packages=find_packages(),
-    install_requires=["torch", "torch_scatter", "torch_geometric", "pandas", "gym", "wandb"],
-    author="Anonymous",
+    install_requires=["torch", "torch_geometric", "wandb", "scipy"],
+    author="Ryan Kortvelesy",
     description="A Learnable, Generalised Aggregation Module",
 )
