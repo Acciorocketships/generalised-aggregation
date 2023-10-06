@@ -8,7 +8,7 @@ long_desc = "# GenAgg\n" + "[Github](https://github.com/Acciorocketships/general
 
 setup(
     name="genagg",
-    version="2.0.3",
+    version="2.0.4",
     packages=find_packages(),
     install_requires=["torch", "torch_geometric", "wandb", "scipy"],
     author="Ryan Kortvelesy",
