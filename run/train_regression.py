@@ -19,8 +19,8 @@ from matplotlib import pyplot as plt
 from genagg import GenAgg
 from genagg import MLPAutoencoder
 
-project = "genagg-regress"
-user = None
+project = None
+user = ""
 
 def experiments():
 	trials = {
@@ -197,7 +197,7 @@ def run(
 		fig = None
 		if isinstance(model.aggr, GenAgg):
 			alpha = model.aggr.a.data.item()
-			beta = model.aggr.c.data.item()
+			beta = model.aggr.b.data.item()
 			if t % 10 == 0:
 				x = torch.linspace(-2,2,200).view(-1,1)
 				fx = model.aggr.f(x)
