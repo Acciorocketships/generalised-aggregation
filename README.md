@@ -1,5 +1,15 @@
 # GenAgg
 
+## [Paper](https://arxiv.org/abs/2306.13826)
+```
+@article{genagg,
+  title = {Generalised f-Mean Aggregation for Graph Neural Networks},
+  author = {Kortvelesy, Ryan and Morad, Steven and Prorok, Amanda},
+  year = {2023},
+  journal={Advances in Neural Information Processing Systems},
+}
+```
+
 ## Introduction
 GenAgg is an aggregator that parametrises the function space of all standard aggregators. It is learnable, allowing it to converge to the most appropriate aggregator for a given problem. It is given by the following formula:
 $$\bigoplus_{x_i \in \mathcal{X}} x_i = f^{-1} \left( n^{\alpha-1} \sum_{x_i \in \mathcal{X}} f(x_i - \beta \mu) \right)$$ 
@@ -92,6 +102,11 @@ print("max error:", torch.max(torch.abs(x-xrec)).detach())
 >f(x): tensor([2.0679, 2.4338, 3.8571, 5.1010, 5.8643])
 >max error: tensor(2.8610e-06)
 >```
+
+The following plot shows a `InvertibleNN` trained to represent $\log(x)$. The dotted line is the ground truth, the blue line is the learned forward function, and the red line is the inverse function. Note that the inverse is not explicitly trained, but it still converges to $e^x$.
+<p align="center">
+<img src="https://github.com/Acciorocketships/generalised-aggregation/blob/main/imgs/plot_inverse.png" alt="Special Cases" width="500"/>
+</p>
 
 It is extremely straightforward to use GenAgg in existing GNN architectures. Simply set the `aggr` attribute of your GNN layer to an instance of GenAgg:
 ```python
