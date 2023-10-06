@@ -136,7 +136,7 @@ print("y:", y.detach())
 
 ## Generalised Distributive Property
 
-Given our novel parametrisation of aggregation functions, we also define a _generalised distributive property_---just as the standard distributive property states $\sum c x_i = c\sum x_i$, we define a distributive property for _any aggregator_. This is particularly useful when developing efficient algorithms. Just as the Fast Fourier Transform and the Viterbi algorithm use the distributive property to optimise time-efficiency, new approaches can use the _generalised_ distributive property to design efficient algorithms that are not limited by linearity.
+Given our generalised parametrisation of aggregation functions, we also define a _generalised distributive property_---just as the standard distributive property states $\sum c x_i = c\sum x_i$, we define a distributive property for _any aggregator_. This is particularly useful when developing efficient algorithms. Just as the Fast Fourier Transform and the Viterbi algorithm use the distributive property to optimise time-efficiency, new approaches can use the _generalised_ distributive property to design efficient algorithms that are not limited by linearity.
 
 **Generalised Distributive Property.** For a binary operator $\psi$ and set aggregation function $\bigodot$, the Generalised Distributive Property is defined:
 
