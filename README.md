@@ -59,7 +59,9 @@ print("y:", y.detach())
 >           [ 0.6762,  0.1140],
 >           [-1.2734, -1.8754],
 >           [-0.2148,  1.8237]])
+>
 >index: tensor([1, 0, 0, 0, 1, 0, 3, 3])
+>
 >y: tensor([[-0.3341,  0.0974],
 >           [-1.6495,  0.0420],
 >           [ 0.0000,  0.0000],
@@ -99,7 +101,9 @@ print("max error:", torch.max(torch.abs(x-xrec)).detach())
 ```
 >```
 >x: tensor([-2., -1.,  0.,  1.,  2.])
+>
 >f(x): tensor([2.0679, 2.4338, 3.8571, 5.1010, 5.8643])
+>
 >max error: tensor(2.8610e-06)
 >```
 
@@ -124,6 +128,7 @@ print("y:", y.detach())
 >x: tensor([[0.5977, 0.9049],
 >           [0.6357, 0.4703],
 >           [0.2521, 0.6275]])
+>
 >y: tensor([[0.1559],
 >           [1.2240],
 >           [0.1208]])
@@ -154,10 +159,11 @@ yc2 = agg(agg.dist_op(c, x), dim=0)
 print("c˚agg(xi):", yc1.detach())
 print("agg(c˚xi):", yc2.detach())
 ```
-```
-c˚agg(xi): tensor([6.4132])
-agg(c˚xi): tensor([6.4132])
-```
+>```
+>c˚agg(xi): tensor([6.4132])
+>
+>agg(c˚xi): tensor([6.4132])
+>```
 
 <p align="center">
 <img src="https://github.com/Acciorocketships/generalised-aggregation/blob/main/imgs/dist_ops.png" alt="Distributive Operations" width="500"/>
