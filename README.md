@@ -91,6 +91,7 @@ print("y:", y.detach())
 All of our experiments were run using the `MLPAutoencoder` as the invertible function `f`. The benefit to this architecture is that it is the most flexible. It can represent not only invertible functions, but also "pseudo-invertible" functions which are independently invertible in the positive and negative domains, such as $x^2$ and $\sqrt x$. It can also represent functions $f: \mathbb{R} \to \mathbb{R}^d$ that allow aggregation to be performed in a higher dimension (before subsequently mapping back with $f^{-1}: \mathbb{R}^d \to \mathbb{R}$).
 However, we also offer an alternative parametrisation of `f`: `InvertibleNN`. This is a network architecture that is specifically designed to be invertible---even without training, `f.forward` is guaranteed to be the inverse of `f.inverse`. This is useful because it does not apply an auxiliary learning objective, and it provides guarantees which can be useful for analysis. In this example, we demonstrate the invertibility of `InvertibleNN` without training:
 ```python
+from genagg import InvertibleNN
 f = InvertibleNN()
 x = torch.linspace(-2,2,5)
 fx = f(x)
