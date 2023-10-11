@@ -66,7 +66,6 @@ def test_dist():
 	yc2 = agg(agg.dist_op(c, x), dim=0)
 	print("c˚agg(xi):", yc1.detach())
 	print("agg(c˚xi):", yc2.detach())
-	breakpoint()
 
 
 if __name__ == '__main__':
