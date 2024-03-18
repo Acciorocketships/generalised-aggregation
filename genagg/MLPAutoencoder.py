@@ -1,7 +1,7 @@
+import numpy as np
+import torch
 import torch.nn as nn
 from torch import Tensor
-import torch
-import numpy as np
 from torch.nn import MSELoss
 
 
@@ -76,7 +76,7 @@ class MLPAutoencoder(nn.Module):
 		if not self.init:
 			return
 		for module in net.children():
-			if hasattr(module, 'weight') and module.original_name == "Linear":
+			if hasattr(module, 'weight') and isinstance(module, torch.nn.Linear):
 				# torch.nn.init.normal_(module.weight, mean=0.02, std=0.1)
 				torch.nn.init.kaiming_normal_(module.weight)
 
