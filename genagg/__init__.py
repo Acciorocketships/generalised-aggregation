@@ -1,5 +1,5 @@
-from genagg.inn.InvertibleNN import InvertibleNN
-from genagg.MLPAutoencoder import MLPAutoencoder
-from genagg.GenAgg import GenAgg
+from .MLPAutoencoder import MLPAutoencoder
+from .genagg import GenAgg
+from .inn.InvertibleNN import InvertibleNN
 
 __all__ = ["GenAgg", "InvertibleNN", "MLPAutoencoder"]
