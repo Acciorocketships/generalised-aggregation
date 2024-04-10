@@ -9,8 +9,8 @@ class GenAgg(Aggregation):
 	def __init__(
 		self,
 		f=None,
-		a=True,
-		b=True,
+		a=None,
+		b=None,
 		**kwargs,
 	):
 		super().__init__()
@@ -20,18 +20,15 @@ class GenAgg(Aggregation):
 			self.f = f(**kwargs)
 		else:
 			self.f = f
-		if isinstance(b, float):
-			self.b = torch.tensor(b)
-		elif b:
-			self.b = nn.Parameter(torch.tensor(0.0))
-		else:
-			self.b = torch.tensor(0.0)
-		if isinstance(a, float):
-			self.a = torch.tensor(a)
-		elif a:
+
+		if a is None:
 			self.a = nn.Parameter(torch.tensor(0.0))
 		else:
-			self.a = torch.tensor(0.0)
+			self.a = a
+		if b is None:
+			self.b = nn.Parameter(torch.tensor(0.0))
+		else:
+			self.b = b
 
 
 	def get_n(
