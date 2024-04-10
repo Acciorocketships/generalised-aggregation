@@ -14,7 +14,7 @@ class MLPAutoencoder(nn.Module):
 			abs_inv_obj=True,
 			jit=True,
 			activation=nn.Mish(inplace=True),
-			batchnorm=True,
+			batchnorm=False,
 	):
 		super().__init__()
 		self.layer_sizes = layer_sizes
